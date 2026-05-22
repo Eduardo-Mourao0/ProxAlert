@@ -8,6 +8,7 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
+.expo-shared/
 
 # Native
 .kotlin/
@@ -20,21 +21,45 @@ expo-env.d.ts
 
 # Metro
 .metro-health-check*
+.metro/
 
 # debug
 npm-debug.*
 yarn-debug.*
 yarn-error.*
+pnpm-debug.*
+*.log
 
-# macOS
+# OS
 .DS_Store
+Thumbs.db
+Desktop.ini
+
+# certificates
 *.pem
 
 # local env files
+.env
+.env.*
 .env*.local
 
 # typescript
 *.tsbuildinfo
+
+# tests and coverage
+coverage/
+.nyc_output/
+
+# editor
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+.idea/
+
+# local AI instructions
+AGENTS.md
 
 # generated native folders
 /ios

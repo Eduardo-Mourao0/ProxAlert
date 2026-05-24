@@ -2,7 +2,10 @@ import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 
-export function LoginScreen() {
+type LoginScreenProps = {
+    onRegisterPress: () => void
+}
+export function LoginScreen({ onRegisterPress }: LoginScreenProps) {
   return (
     <SafeAreaView style={styles.container}>
         
@@ -64,7 +67,7 @@ export function LoginScreen() {
 
             <View style={styles.registerRow}>
                 <Text style={styles.registerText}>Não tem uma conta?</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={onRegisterPress}>
                     <Text style={styles.registerLink}>Criar agora</Text>
                 </TouchableOpacity>
             </View>

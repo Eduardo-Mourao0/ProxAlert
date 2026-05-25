@@ -3,6 +3,8 @@ import { useState } from 'react'
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
+import { colors } from '../theme/colors'
+
 type RegisterScreenProps = {
   onLoginPress: () => void
 }
@@ -13,8 +15,7 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const passwordStrength = getPasswordStrength(password)
-  const passwordStrengthLevel =
-    passwordStrength >= 4 ? 'strong' : passwordStrength >= 2 ? 'medium' : 'weak'
+  const passwordStrengthLevel = passwordStrength >= 4 ? 'strong' : passwordStrength >= 2 ? 'medium' : 'weak'
   const passwordsDoNotMatch = confirmPassword.length > 0 && password !== confirmPassword
 
   return (
@@ -26,12 +27,12 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
       >
         <View style={styles.header}>
           <TouchableOpacity style={styles.returnButton} onPress={onLoginPress}>
-            <Ionicons name="arrow-back" size={24} color="#4aa3ff" />
+            <Ionicons name="arrow-back" size={24} color={colors.iconPrimary} />
             <Text style={styles.returnButtonText}>Voltar para o login</Text>
           </TouchableOpacity>
 
           <View style={styles.logoBox}>
-            <Ionicons name="person-add-outline" size={40} color="#ffffff" />
+            <Ionicons name="person-add-outline" size={40} color={colors.textPrimary} />
           </View>
 
           <Text style={styles.title}>Criar conta</Text>
@@ -41,37 +42,37 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
         <View style={styles.form}>
           <Text style={styles.label}>Nome completo</Text>
           <View style={styles.inputBox}>
-            <Ionicons name="person-outline" size={18} color="#4aa3ff" />
+            <Ionicons name="person-outline" size={18} color={colors.iconPrimary} />
             <TextInput
               style={styles.input}
               placeholder="Seu nome"
-              placeholderTextColor="#b8c7d8"
+              placeholderTextColor={colors.placeholder}
             />
           </View>
 
           <Text style={styles.emailLabel}>E-mail</Text>
           <View style={styles.inputBoxEmail}>
-            <Ionicons name="mail-outline" size={18} color="#92a6b9" />
+            <Ionicons name="mail-outline" size={18} color={colors.iconNeutral} />
             <TextInput
               style={styles.input}
               placeholder="seu@email.com"
-              placeholderTextColor="#b8c7d8"
+              placeholderTextColor={colors.placeholder}
             />
           </View>
 
           <Text style={styles.passwordLabel}>Senha</Text>
           <View style={styles.passwordBox}>
-            <Ionicons name="lock-closed-outline" size={18} color="#b8b4ad" />
+            <Ionicons name="lock-closed-outline" size={18} color={colors.iconMuted} />
             <TextInput
               style={styles.input}
               placeholder="Mínimo de 8 caracteres"
-              placeholderTextColor="#b8c7d8"
+              placeholderTextColor={colors.placeholder}
               secureTextEntry={!showPassword}
               value={password}
               onChangeText={setPassword}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons name={showPassword ? "eye-off-outline" : "eye-outline"} size={18} color="#b8b4ad" />
+              <Ionicons name={showPassword ? "eye-off-outline" : "eye-outline"} size={18} color={colors.iconMuted} />
             </TouchableOpacity>
           </View>
 
@@ -119,17 +120,17 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
 
           <Text style={styles.passwordConfirmLabel}>Confirmar senha</Text>
           <View style={styles.passwordBox}>
-            <Ionicons name="lock-closed-outline" size={18} color="#b8b4ad" />
+            <Ionicons name="lock-closed-outline" size={18} color={colors.iconMuted} />
             <TextInput
               style={styles.input}
               placeholder="Repita sua senha"
-              placeholderTextColor="#b8c7d8"
+              placeholderTextColor={colors.placeholder}
               secureTextEntry={!showPassword}
               value={confirmPassword}
               onChangeText={setConfirmPassword}
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-              <Ionicons name={showPassword ? "eye-off-outline" : "eye-outline"} size={18} color="#b8b4ad" />
+              <Ionicons name={showPassword ? "eye-off-outline" : "eye-outline"} size={18} color={colors.iconMuted} />
             </TouchableOpacity>
           </View>
 
@@ -143,7 +144,7 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
               onPress={() => setAcceptedTerms(!acceptedTerms)}
             >
               {acceptedTerms && (
-                <Ionicons name="checkmark" size={14} color="#ffffff" />
+                <Ionicons name="checkmark" size={14} color={colors.textPrimary} />
               )}
             </TouchableOpacity>
 
@@ -170,7 +171,7 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
             onPress={() => console.log('clicou no botão de login')}
           >
             <Text style={styles.loginButtonText}>Criar conta</Text>
-            <Ionicons name="arrow-forward" size={23} color="#ffffff" />
+            <Ionicons name="arrow-forward" size={23} color={colors.textPrimary} />
           </TouchableOpacity>
 
           <View style={styles.dividerRow}>
@@ -180,7 +181,7 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
           </View>
 
           <TouchableOpacity style={styles.googleButton}>
-            <Ionicons name="logo-google" size={18} color="#d6d3ce" />
+            <Ionicons name="logo-google" size={18} color={colors.textSecondary} />
             <Text style={styles.googleButtonText}>Entrar com Google</Text>
           </TouchableOpacity>
 
@@ -216,14 +217,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#07111f',
+    backgroundColor: colors.background,
   },
   header: {
     width: '100%',
     height: 250,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#15518a',
+    backgroundColor: colors.header,
   },
   returnButton: {
     position: 'absolute',
@@ -233,7 +234,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   returnButtonText: {
-    color: '#65aef3',
+    color: colors.link,
     fontSize: 14,
     marginLeft: 8,
   },
@@ -244,36 +245,36 @@ const styles = StyleSheet.create({
     marginTop: 29,
     borderRadius: 30,
     borderWidth: 2,
-    borderColor: '#2f9bff',
+    borderColor: colors.primaryAccent,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#0f78e0',
+    backgroundColor: colors.primaryStrong,
   },
   title: {
-    color: '#ffffff',
+    color: colors.textPrimary,
     fontSize: 32,
     fontWeight: '800',
   },
   subtitle: {
-    color: '#65aef3',
+    color: colors.link,
     fontSize: 15,
     marginTop: 8,
   },
   form: {
     width: '100%',
-    backgroundColor: '#2b2b29',
+    backgroundColor: colors.surface,
     paddingHorizontal: 24,
     paddingTop: 24,
     paddingBottom: 40,
   },
   label: {
-    color: '#d6d3ce',
+    color: colors.textSecondary,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
   },
   emailLabel: {
-    color: '#d6d3ce',
+    color: colors.textSecondary,
     marginTop: 13,
     fontSize: 16,
     fontWeight: '600',
@@ -282,33 +283,33 @@ const styles = StyleSheet.create({
   inputBox: {
     height: 48,
     borderWidth: 2,
-    borderColor: '#2f9bff',
+    borderColor: colors.primaryAccent,
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 14,
     gap: 8,
-    backgroundColor: '#224261',
+    backgroundColor: colors.inputActiveBackground,
   },
   inputBoxEmail: {
     height: 48,
     borderWidth: 2,
-    borderColor: '#616e7a',
+    borderColor: colors.borderSoft,
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 14,
     gap: 8,
-    backgroundColor: '#282c30',
+    backgroundColor: colors.surfaceRaised,
   },
   input: {
     flex: 1,
-    color: '#ffffff',
+    color: colors.textPrimary,
     fontSize: 16,
     marginLeft: 10,
   },
   passwordLabel: {
-    color: '#d6d3ce',
+    color: colors.textSecondary,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
@@ -323,19 +324,19 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 3,
     borderRadius: 999,
-    backgroundColor: '#5a5852',
+    backgroundColor: colors.divider,
   },
   passwordStrengthBarActive: {
-    backgroundColor: '#ff6b6b',
+    backgroundColor: colors.danger,
   },
   passwordStrengthBarWeak: {
-    backgroundColor: '#ff6b6b',
+    backgroundColor: colors.danger,
   },
   passwordStrengthBarMedium: {
-    backgroundColor: '#f5a400',
+    backgroundColor: colors.warning,
   },
   passwordStrengthBarStrong: {
-    backgroundColor: '#39d98a',
+    backgroundColor: colors.success,
   },
   passwordStrengthText: {
     fontSize: 11,
@@ -343,16 +344,16 @@ const styles = StyleSheet.create({
     marginTop: 6,
   },
   passwordStrengthTextWeak: {
-    color: '#ff6b6b',
+    color: colors.danger,
   },
   passwordStrengthTextMedium: {
-    color: '#f5a400',
+    color: colors.warning,
   },
   passwordStrengthTextStrong: {
-    color: '#39d98a',
+    color: colors.success,
   },
   passwordConfirmLabel: {
-    color: '#d6d3ce',
+    color: colors.textSecondary,
     fontSize: 16,
     fontWeight: '600',
     marginBottom: 8,
@@ -361,16 +362,16 @@ const styles = StyleSheet.create({
   passwordBox: {
     height: 48,
     borderWidth: 2,
-    borderColor: '#616e7a',
+    borderColor: colors.borderSoft,
     borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 14,
     gap: 8,
-    backgroundColor: '#282c30',
+    backgroundColor: colors.surfaceRaised,
   },
   errorText: {
-    color: '#ff6b6b',
+    color: colors.danger,
     fontSize: 12,
     fontWeight: '700',
     marginTop: 6,
@@ -384,7 +385,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     borderWidth: 1,
-    borderColor: '#6a6862',
+    borderColor: colors.border,
     borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
@@ -392,17 +393,17 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   checkboxChecked: {
-    borderColor: '#4aa3ff',
-    backgroundColor: '#4aa3ff',
+    borderColor: colors.iconPrimary,
+    backgroundColor: colors.iconPrimary,
   },
   termosText: {
     flex: 1,
-    color: '#d6d3ce',
+    color: colors.textSecondary,
     fontSize: 12,
     lineHeight: 18,
   },
   termosLink: {
-    color: '#65aef3',
+    color: colors.link,
     fontSize: 12,
     fontWeight: '700',
   },
@@ -413,10 +414,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    backgroundColor: '#15518a',
+    backgroundColor: colors.header,
   },
   loginButtonText: {
-    color: '#ffffff',
+    color: colors.textPrimary,
     fontSize: 20,
     fontWeight: '700',
   },
@@ -429,17 +430,17 @@ const styles = StyleSheet.create({
   dividerLine: {
     flex: 1,
     height: 1,
-    backgroundColor: '#6a6862',
+    backgroundColor: colors.border,
   },
   dividerText: {
-    color: '#d6d3ce',
+    color: colors.textSecondary,
     fontSize: 12,
     marginHorizontal: 8,
   },
   googleButton: {
     height: 50,
     borderWidth: 1,
-    borderColor: '#6a6862',
+    borderColor: colors.border,
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
@@ -448,7 +449,7 @@ const styles = StyleSheet.create({
     marginTop: 17,
   },
   googleButtonText: {
-    color: '#ffffff',
+    color: colors.textPrimary,
     fontSize: 14,
     fontWeight: '800',
   },
@@ -460,12 +461,12 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
   loginRowText: {
-    color: '#d6d3ce',
+    color: colors.textSecondary,
     fontSize: 12,
     fontWeight: '700',
   },
   loginRowLink: {
-    color: '#65aef3',
+    color: colors.link,
     fontSize: 12,
     fontWeight: '700',
   },

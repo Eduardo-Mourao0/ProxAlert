@@ -2,6 +2,8 @@ import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-nativ
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
 
+import { colors } from '../theme/colors'
+
 type LoginScreenProps = {
     onRegisterPress: () => void
 }
@@ -11,7 +13,7 @@ export function LoginScreen({ onRegisterPress }: LoginScreenProps) {
         
         <View style={styles.header}>
             <View style={styles.logoBox}>
-                <Ionicons name="location-outline" size={30} color="#ffffff" />
+                <Ionicons name="location-outline" size={30} color={colors.textPrimary} />
             </View>
 
             <Text style={styles.title}>ProxAlert</Text>
@@ -23,26 +25,26 @@ export function LoginScreen({ onRegisterPress }: LoginScreenProps) {
             <Text style={styles.label}>E-mail</Text>
             
             <View style={styles.inputBox}>
-                <Ionicons name="mail-outline" size={18} color="#4aa3ff" />
+                <Ionicons name="mail-outline" size={18} color={colors.iconPrimary} />
                 <TextInput
                     style={styles.input}
                     placeholder="seu@email.com"
-                    placeholderTextColor= "#b8c7d8"
+                    placeholderTextColor={colors.placeholder}
                 />
             </View>
 
             <Text style={styles.passwordLabel}>Senha</Text>
 
             <View style={styles.passwordBox}>
-                <Ionicons name="lock-closed-outline" size={18} color="#b8b4ad" />
+                <Ionicons name="lock-closed-outline" size={18} color={colors.iconMuted} />
                 <TextInput
                     style={styles.input}
                     placeholder="12345678"
-                    placeholderTextColor= "#b8b4ad"
+                    placeholderTextColor={colors.iconMuted}
                     secureTextEntry
                 />
 
-                <Ionicons name="eye-outline" size={18} color="#b8b4ad" />
+                <Ionicons name="eye-outline" size={18} color={colors.iconMuted} />
             </View>
 
             <TouchableOpacity style={styles.forgotPasswordButton}>
@@ -51,7 +53,7 @@ export function LoginScreen({ onRegisterPress }: LoginScreenProps) {
 
             <TouchableOpacity style={styles.loginButton}>
                 <Text style={styles.loginButtonText}>Entrar</Text>
-                <Ionicons name="arrow-forward" size={23} color="#ffffff" />
+                <Ionicons name="arrow-forward" size={23} color={colors.textPrimary} />
             </TouchableOpacity>
 
             <View style={styles.dividerRow}>
@@ -61,7 +63,7 @@ export function LoginScreen({ onRegisterPress }: LoginScreenProps) {
             </View>
 
             <TouchableOpacity style={styles.googleButton}>
-                <Ionicons name="logo-google" size={18} color="#d6d3ce" />
+                <Ionicons name="logo-google" size={18} color={colors.textSecondary} />
                 <Text style={styles.googleButtonText}>Entrar com Google</Text>
             </TouchableOpacity>
 
@@ -81,15 +83,15 @@ export function LoginScreen({ onRegisterPress }: LoginScreenProps) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#07111f',
+        backgroundColor: colors.background,
     },
     title: {
-        color: '#ffffff',
+        color: colors.textPrimary,
         fontSize: 32,
         fontWeight: '800',
     },
     subtitle: {
-        color: '#93a4b8',
+        color: colors.textMuted,
         fontSize: 15,
         marginTop: 8,
     },
@@ -98,17 +100,17 @@ const styles = StyleSheet.create({
         height: 230,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#15518a',
+        backgroundColor: colors.header,
     },
     form: {
         width: '100%',
         flex: 1,
-        backgroundColor: '#2b2b29',
+        backgroundColor: colors.surface,
         paddingHorizontal: 24,
         paddingTop: 34,
     },
     label: {
-        color: '#d6d3ce',
+        color: colors.textSecondary,
         fontSize: 14,
         fontWeight: '700',
         marginBottom: 8,
@@ -116,16 +118,16 @@ const styles = StyleSheet.create({
     inputBox: {
         height: 48,
         borderWidth: 2,
-        borderColor: '#2f9bff',
+        borderColor: colors.primaryAccent,
         borderRadius: 12,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 14,
         gap: 8,
-        backgroundColor: '#224261',
+        backgroundColor: colors.inputActiveBackground,
     },
     passwordLabel: {
-        color: '#d6d3ce',
+        color: colors.textSecondary,
         fontSize: 14,
         fontWeight: '700',
         marginBottom: 8,
@@ -134,17 +136,17 @@ const styles = StyleSheet.create({
     passwordBox: {
         height: 48,
         borderWidth: 2,
-        borderColor: '#6a6862',
+        borderColor: colors.border,
         borderRadius: 12,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 14,
         gap: 10,
-        backgroundColor: '#2b2b29',
+        backgroundColor: colors.surface,
     },
     input: {
         flex: 1,
-        color: '#ffffff',
+        color: colors.textPrimary,
         fontSize: 14,
         padding: 0,
     },
@@ -154,7 +156,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#1f6fb8',
+        backgroundColor: colors.primarySoft,
         marginBottom: 16,
     },
     forgotPasswordButton: {
@@ -163,7 +165,7 @@ const styles = StyleSheet.create({
         marginRight: 4,
     },
     forgotPasswordText: {
-        color: '#2f9bff',
+        color: colors.primaryAccent,
         fontSize: 14,
         fontWeight: '600',
     },
@@ -171,14 +173,14 @@ const styles = StyleSheet.create({
         height: 60,
         marginTop: 30,
         borderRadius: 14,
-        backgroundColor: '#226eb5',
+        backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
         gap: 5,
     },
     loginButtonText: {
-        color: '#ffffff',
+        color: colors.textPrimary,
         fontSize: 19,
         fontWeight: '800',
     },
@@ -191,10 +193,10 @@ const styles = StyleSheet.create({
     dividerLine: {
         flex: 1,
         height: 1,
-        backgroundColor: '#5a5852',
+        backgroundColor: colors.divider,
     },
     dividerText: {
-        color: '#a9a49c',
+        color: colors.textSubtle,
         fontSize: 12,
         fontWeight: '600',
         marginHorizontal: 12,
@@ -202,7 +204,7 @@ const styles = StyleSheet.create({
     googleButton: {
         height: 50,
         borderWidth: 1,
-        borderColor: '#6a6862',
+        borderColor: colors.border,
         borderRadius: 12,
         alignItems: 'center',
         justifyContent: 'center',
@@ -210,7 +212,7 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     googleButtonText: {
-        color: '#ffffff',
+        color: colors.textPrimary,
         fontSize: 14,
         fontWeight: '800',
     },
@@ -222,12 +224,12 @@ const styles = StyleSheet.create({
         gap: 4,
     },
     registerText: {
-        color: '#d6d3ce',
+        color: colors.textSecondary,
         fontSize: 14,
         fontWeight: '700',
     },
     registerLink: {
-        color: '#2f9bff',
+        color: colors.primaryAccent,
         fontSize: 12,
         fontWeight: '700',
     },

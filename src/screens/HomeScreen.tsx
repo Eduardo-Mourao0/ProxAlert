@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AlarmCard } from '../components/AlarmCard'
@@ -10,7 +11,34 @@ type HomeScreenProps = {
     onTabPress: (tab: MainTab) => void
 }
 
+const initialAlarms = [
+    {
+        id: 'home',
+        name: 'Casa',
+        radius: 'Raio: 500 m',
+        active: true,
+    },
+    {
+        id: 'college',
+        name: 'Faculdade',
+        radius: 'Raio: 300 m',
+        active: false,
+    },
+]
+
 export function HomeScreen({ onTabPress }: HomeScreenProps) {
+    const [alarms, setAlarms] = useState(initialAlarms)
+
+    function handleToggleAlarm(alarmId: string) {
+        setAlarms((currentAlarms) =>
+            currentAlarms.map((alarm) =>
+                alarm.id === alarmId
+                    ? { ...alarm, active: !alarm.active }
+                    : alarm
+            )
+        )
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView
@@ -53,17 +81,15 @@ export function HomeScreen({ onTabPress }: HomeScreenProps) {
 
                 <Text style={styles.sectionTitle}>Alarmes salvos</Text>
 
-                <AlarmCard
-                    name="Casa"
-                    radius="Raio: 500 m"
-                    active={true}
-                />
-
-                <AlarmCard
-                    name="Faculdade"
-                    radius="Raio: 300 m"
-                    active={false}
-                />
+                {alarms.map((alarm) => (
+                    <AlarmCard
+                        key={alarm.id}
+                        name={alarm.name}
+                        radius={alarm.radius}
+                        active={alarm.active}
+                        onToggle={() => handleToggleAlarm(alarm.id)}
+                    />
+                ))}
 
             </View>
             </ScrollView>

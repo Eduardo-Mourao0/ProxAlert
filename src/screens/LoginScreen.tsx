@@ -1,83 +1,90 @@
 import { Text, StyleSheet, View, TextInput, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
+import { useState } from 'react'
 
 import { colors } from '../theme/colors'
 
 type LoginScreenProps = {
+    onLoginPress: () => void
     onRegisterPress: () => void
 }
-export function LoginScreen({ onRegisterPress }: LoginScreenProps) {
-  return (
-    <SafeAreaView style={styles.container}>
-        
-        <View style={styles.header}>
-            <View style={styles.logoBox}>
-                <Ionicons name="location-outline" size={30} color={colors.textPrimary} />
-            </View>
 
-            <Text style={styles.title}>ProxAlert</Text>
-
-            <Text style={styles.subtitle}>Nunca mais perca sua parada</Text>
-        </View>
-
-        <View style={styles.form}>
-            <Text style={styles.label}>E-mail</Text>
-            
-            <View style={styles.inputBox}>
-                <Ionicons name="mail-outline" size={18} color={colors.iconPrimary} />
-                <TextInput
-                    style={styles.input}
-                    placeholder="seu@email.com"
-                    placeholderTextColor={colors.placeholder}
-                />
-            </View>
-
-            <Text style={styles.passwordLabel}>Senha</Text>
-
-            <View style={styles.passwordBox}>
-                <Ionicons name="lock-closed-outline" size={18} color={colors.iconMuted} />
-                <TextInput
-                    style={styles.input}
-                    placeholder="12345678"
-                    placeholderTextColor={colors.iconMuted}
-                    secureTextEntry
-                />
-
-                <Ionicons name="eye-outline" size={18} color={colors.iconMuted} />
-            </View>
-
-            <TouchableOpacity style={styles.forgotPasswordButton}>
-                <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Entrar</Text>
-                <Ionicons name="arrow-forward" size={23} color={colors.textPrimary} />
-            </TouchableOpacity>
-
-            <View style={styles.dividerRow}>
-                <View style={styles.dividerLine} />
-                <Text style={styles.dividerText}>ou continue com</Text>
-                <View style={styles.dividerLine} />
-            </View>
-
-            <TouchableOpacity style={styles.googleButton}>
-                <Ionicons name="logo-google" size={18} color={colors.textSecondary} />
-                <Text style={styles.googleButtonText}>Entrar com Google</Text>
-            </TouchableOpacity>
-
-            <View style={styles.registerRow}>
-                <Text style={styles.registerText}>Não tem uma conta?</Text>
-                <TouchableOpacity onPress={onRegisterPress}>
-                    <Text style={styles.registerLink}>Criar agora</Text>
-                </TouchableOpacity>
-            </View>
-
-        </View>
+export function LoginScreen({ onLoginPress, onRegisterPress }: LoginScreenProps) {
+    const [showPassword, setShowPassword] = useState(false)
     
-    </SafeAreaView>
-  )
+    return (
+        <SafeAreaView style={styles.container}>
+            
+            <View style={styles.header}>
+                <View style={styles.logoBox}>
+                    <Ionicons name="location-outline" size={30} color={colors.textPrimary} />
+                </View>
+
+                <Text style={styles.title}>ProxAlert</Text>
+
+                <Text style={styles.subtitle}>Nunca mais perca sua parada</Text>
+            </View>
+
+            <View style={styles.form}>
+                <Text style={styles.label}>E-mail</Text>
+                
+                <View style={styles.inputBox}>
+                    <Ionicons name="mail-outline" size={18} color={colors.iconPrimary} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="seu@email.com"
+                        placeholderTextColor={colors.placeholder}
+                    />
+                </View>
+
+                <Text style={styles.passwordLabel}>Senha</Text>
+
+                <View style={styles.passwordBox}>
+                    <Ionicons name="lock-closed-outline" size={18} color={colors.iconMuted} />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="*******"
+                        placeholderTextColor={colors.iconMuted}
+                        secureTextEntry={!showPassword}
+                    />
+
+                    <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                        <Ionicons name={showPassword ? "eye-off-outline" : "eye-outline"} size={18} color={colors.iconMuted} />
+                    </TouchableOpacity>
+                </View>
+
+                <TouchableOpacity style={styles.forgotPasswordButton}>
+                    <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.loginButton} onPress={onLoginPress}>
+                    <Text style={styles.loginButtonText}>Entrar</Text>
+                    <Ionicons name="arrow-forward" size={23} color={colors.textPrimary} />
+                </TouchableOpacity>
+
+                <View style={styles.dividerRow}>
+                    <View style={styles.dividerLine} />
+                    <Text style={styles.dividerText}>ou continue com</Text>
+                    <View style={styles.dividerLine} />
+                </View>
+
+                <TouchableOpacity style={styles.googleButton}>
+                    <Ionicons name="logo-google" size={18} color={colors.textSecondary} />
+                    <Text style={styles.googleButtonText}>Entrar com Google</Text>
+                </TouchableOpacity>
+
+                <View style={styles.registerRow}>
+                    <Text style={styles.registerText}>Não tem uma conta?</Text>
+                    <TouchableOpacity onPress={onRegisterPress}>
+                        <Text style={styles.registerLink}>Criar agora</Text>
+                    </TouchableOpacity>
+                </View>
+
+            </View>
+        
+        </SafeAreaView>
+    )
 }
 
 const styles = StyleSheet.create({

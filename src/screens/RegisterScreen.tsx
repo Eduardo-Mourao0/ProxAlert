@@ -7,9 +7,10 @@ import { colors } from '../theme/colors'
 
 type RegisterScreenProps = {
   onLoginPress: () => void
+  onBackPress: () => void
 }
 
-export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
+export function RegisterScreen({ onLoginPress, onBackPress }: RegisterScreenProps) {
   const [acceptedTerms, setAcceptedTerms] = useState(false)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -26,7 +27,7 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <TouchableOpacity style={styles.returnButton} onPress={onLoginPress}>
+          <TouchableOpacity style={styles.returnButton} onPress={onBackPress}>
             <Ionicons name="arrow-back" size={24} color={colors.iconPrimary} />
             <Text style={styles.returnButtonText}>Voltar para o login</Text>
           </TouchableOpacity>
@@ -168,7 +169,7 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
 
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => console.log('clicou no botão de login')}
+            onPress={() => onLoginPress()}
           >
             <Text style={styles.loginButtonText}>Criar conta</Text>
             <Ionicons name="arrow-forward" size={23} color={colors.textPrimary} />
@@ -187,7 +188,7 @@ export function RegisterScreen({ onLoginPress }: RegisterScreenProps) {
 
           <View style={styles.loginRow}>
             <Text style={styles.loginRowText}>Já tem conta?</Text>
-            <TouchableOpacity onPress={onLoginPress}>
+            <TouchableOpacity onPress={onBackPress}>
               <Text style={styles.loginRowLink}>Entrar</Text>
             </TouchableOpacity>
           </View>

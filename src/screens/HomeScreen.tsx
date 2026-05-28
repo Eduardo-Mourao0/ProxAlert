@@ -52,7 +52,7 @@ export function HomeScreen({ onTabPress }: HomeScreenProps) {
                     <Text style={styles.greeting}>Olá, Eduardo</Text>
                 </View>
 
-                <TouchableOpacity style={styles.avatar}>
+                <TouchableOpacity style={styles.avatar} onPress={() => onTabPress('profile')}>
                     <Text style={styles.avatarText}>E</Text>
                 </TouchableOpacity>
             </View>

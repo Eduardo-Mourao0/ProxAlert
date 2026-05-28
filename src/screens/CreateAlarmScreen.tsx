@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
 import { Ionicons } from '@expo/vector-icons'
+import { useState } from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 import { BottomNav } from '../components/BottomNav'
 import { colors } from '../theme/colors'
@@ -10,63 +11,230 @@ type CreateAlarmScreenProps = {
     onTabPress: (tab: MainTab) => void
 }
 
+type AlarmStep = 'selectDestination' | 'configureAlarm'
+
+const radiusOptions = ['100 m', '200 m', '500 m', '1 km']
+const nameOptions = ['Casa', 'Trabalho', 'Faculdade', 'Academia']
+const soundOptions = [
+    'Alarme intenso + vibracao',
+    'Alarme suave',
+    'Som curto',
+    'Apenas vibracao',
+]
+
 export function CreateAlarmScreen({ onTabPress }: CreateAlarmScreenProps) {
+    const [step, setStep] = useState<AlarmStep>('selectDestination')
+    const [selectedRadius, setSelectedRadius] = useState('500 m')
+    const [alarmName, setAlarmName] = useState('Casa')
+    const [alarmMessage, setAlarmMessage] = useState('Você está chegando no destino.')
+    const [selectedSound, setSelectedSound] = useState(soundOptions[0])
+    const [isSoundPickerOpen, setIsSoundPickerOpen] = useState(false)
+
+    const isConfiguring = step === 'configureAlarm'
+
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.header}>
-                <View>
-                    <Text style={styles.title}>Novo alarme</Text>
-                    <Text style={styles.subtitle}>Escolha o ponto de chegada</Text>
-                </View>
-                
-                <TouchableOpacity style={styles.avatar}>
-                    <Text style={styles.avatarText}>E</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.searchBox}>
-                <Ionicons name="search-outline" size={20} color={colors.textMuted} />
-                
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Buscar endereço ou parada"
-                    placeholderTextColor={colors.textMuted}
-                />
-            </View>
-
-            <View style={styles.mapBox}>
-                <Text style={styles.mapHint}>Toque no mapa para definir</Text>
-
-                <View style={styles.mapLineOne} />
-                <View style={styles.mapLineTwo} />
-
-                <View style={styles.markerOuter}>
-                    <View style={styles.markerMiddle}>
-                    <View style={styles.markerInner} />
+            <ScrollView
+                style={styles.scroll}
+                contentContainerStyle={styles.scrollContent}
+                showsVerticalScrollIndicator={false}
+            >
+                <View style={styles.header}>
+                    <View>
+                        <Text style={styles.title}>
+                            {isConfiguring ? 'Configurar' : 'Novo alarme'}
+                        </Text>
+                        <Text style={styles.subtitle}>
+                            {isConfiguring ? 'Ajuste o alerta antes de salvar' : 'Escolha o ponto de chegada'}
+                        </Text>
                     </View>
+
+                    <TouchableOpacity style={styles.avatar} onPress={() => onTabPress('profile')}>
+                        <Text style={styles.avatarText}>E</Text>
+                    </TouchableOpacity>
                 </View>
 
-                <View style={styles.addressTag}>
-                    <Text style={styles.addressText}>Av. Paulista, 1000 - Sao Paulo</Text>
-                </View>
-            </View>
+                {isConfiguring ? (
+                    <View style={styles.content}>
+                        <Text style={styles.fieldLabel}>Nome do alarme</Text>
+                        <View style={styles.nameOptionsRow}>
+                            {nameOptions.map((name) => (
+                                <TouchableOpacity
+                                    key={name}
+                                    style={[
+                                        styles.nameOption,
+                                        alarmName === name && styles.nameOptionActive,
+                                    ]}
+                                    onPress={() => setAlarmName(name)}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.nameOptionText,
+                                            alarmName === name && styles.nameOptionTextActive,
+                                        ]}
+                                    >
+                                        {name}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
 
-            <View style={styles.destinationPreview}>
-                <View style={styles.previewIconBox}>
-                    <Ionicons name="location-outline" size={20} color={colors.textPrimary} />
-                </View>
+                        <TextInput
+                            style={styles.textField}
+                            value={alarmName}
+                            onChangeText={setAlarmName}
+                            placeholder="Digite um nome"
+                            placeholderTextColor={colors.textMuted}
+                        />
 
-                <View style={styles.previewMainInfo}>
-                    <Text style={styles.previewLabel}>TEMPO ESTIMADO</Text>
-                    <Text style={styles.previewTime}>18 min</Text>
-                    <Text style={styles.previewDescription}>Baseado na sua distância atual</Text>
-                </View>
+                        <Text style={styles.fieldLabel}>Raio de ativacao</Text>
+                        <View style={styles.radiusRow}>
+                            {radiusOptions.map((radius) => (
+                                <TouchableOpacity
+                                    key={radius}
+                                    style={[
+                                        styles.radiusOption,
+                                        selectedRadius === radius && styles.radiusOptionActive,
+                                    ]}
+                                    onPress={() => setSelectedRadius(radius)}
+                                >
+                                    <Text
+                                        style={[
+                                            styles.radiusOptionText,
+                                            selectedRadius === radius && styles.radiusOptionTextActive,
+                                        ]}
+                                    >
+                                        {radius}
+                                    </Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
 
-                <View style={styles.previewDistanceBox}>
-                    <Text style={styles.previewDistance}>2,3 km</Text>
-                    <Text style={styles.previewDistanceLabel}>até o destino</Text>
-                </View>
-            </View>
+                        <Text style={styles.fieldLabel}>Som do alarme</Text>
+                        <TouchableOpacity
+                            style={styles.selectField}
+                            onPress={() => setIsSoundPickerOpen((currentValue) => !currentValue)}
+                            activeOpacity={0.8}
+                        >
+                            <Text style={styles.selectFieldText}>{selectedSound}</Text>
+                            <Ionicons
+                                name={isSoundPickerOpen ? 'chevron-up' : 'chevron-down'}
+                                size={18}
+                                color={colors.textMuted}
+                            />
+                        </TouchableOpacity>
+
+                        {isSoundPickerOpen && (
+                            <View style={styles.soundOptionsBox}>
+                                {soundOptions.map((sound) => (
+                                    <TouchableOpacity
+                                        key={sound}
+                                        style={styles.soundOption}
+                                        onPress={() => {
+                                            setSelectedSound(sound)
+                                            setIsSoundPickerOpen(false)
+                                        }}
+                                    >
+                                        <Text
+                                            style={[
+                                                styles.soundOptionText,
+                                                selectedSound === sound && styles.soundOptionTextActive,
+                                            ]}
+                                        >
+                                            {sound}
+                                        </Text>
+
+                                        {selectedSound === sound && (
+                                            <Ionicons name="checkmark" size={18} color={colors.primaryAccent} />
+                                        )}
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        )}
+
+                        <Text style={styles.fieldLabel}>Mensagem personalizada</Text>
+                        <TextInput
+                            style={[styles.textField, styles.messageField]}
+                            value={alarmMessage}
+                            onChangeText={setAlarmMessage}
+                            multiline
+                            textAlignVertical="top"
+                        />
+
+                        <View style={styles.offlineCard}>
+                            <View style={styles.offlineDot} />
+
+                            <View style={styles.offlineTextBox}>
+                                <Text style={styles.offlineTitle}>Funciona offline</Text>
+                                <Text style={styles.offlineDescription}>
+                                    Alarmes salvos continuam usando GPS mesmo sem internet.
+                                </Text>
+                            </View>
+                        </View>
+
+                        <TouchableOpacity
+                            style={styles.primaryButton}
+                            onPress={() => onTabPress('home')}
+                        >
+                            <Text style={styles.primaryButtonText}>Salvar e ativar</Text>
+                        </TouchableOpacity>
+                    </View>
+                ) : (
+                    <View style={styles.content}>
+                        <View style={styles.searchBox}>
+                            <Ionicons name="search-outline" size={20} color={colors.textMuted} />
+
+                            <TextInput
+                                style={styles.searchInput}
+                                placeholder="Buscar endereco ou parada"
+                                placeholderTextColor={colors.textMuted}
+                            />
+                        </View>
+
+                        <View style={styles.mapBox}>
+                            <Text style={styles.mapHint}>Toque no mapa para definir</Text>
+
+                            <View style={styles.mapLineOne} />
+                            <View style={styles.mapLineTwo} />
+
+                            <View style={styles.markerOuter}>
+                                <View style={styles.markerMiddle}>
+                                    <View style={styles.markerInner} />
+                                </View>
+                            </View>
+
+                            <View style={styles.addressTag}>
+                                <Text style={styles.addressText}>Av. Paulista, 1000 - Sao Paulo</Text>
+                            </View>
+                        </View>
+
+                        <View style={styles.destinationPreview}>
+                            <View style={styles.previewIconBox}>
+                                <Ionicons name="location-outline" size={20} color={colors.textPrimary} />
+                            </View>
+
+                            <View style={styles.previewMainInfo}>
+                                <Text style={styles.previewLabel}>TEMPO ESTIMADO</Text>
+                                <Text style={styles.previewTime}>18 min</Text>
+                                <Text style={styles.previewDescription}>Baseado na sua distancia atual</Text>
+                            </View>
+
+                            <View style={styles.previewDistanceBox}>
+                                <Text style={styles.previewDistance}>2,3 km</Text>
+                                <Text style={styles.previewDistanceLabel}>ate o destino</Text>
+                            </View>
+                        </View>
+
+                        <TouchableOpacity
+                            style={styles.primaryButton}
+                            onPress={() => setStep('configureAlarm')}
+                        >
+                            <Text style={styles.primaryButtonText}>Continuar</Text>
+                            <Ionicons name="arrow-forward" size={18} color={colors.textPrimary} />
+                        </TouchableOpacity>
+                    </View>
+                )}
+            </ScrollView>
 
             <View style={styles.bottomNavWrapper}>
                 <BottomNav activeTab="alarm" onTabPress={onTabPress} />
@@ -79,6 +247,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: colors.background,
+    },
+    scroll: {
+        flex: 1,
+    },
+    scrollContent: {
+        paddingBottom: 96,
     },
     header: {
         width: '100%',
@@ -98,13 +272,7 @@ const styles = StyleSheet.create({
     subtitle: {
         color: colors.textSecondary,
         fontSize: 16,
-        marginTop: 0,
-    },
-    bottomNavWrapper: {
-        position: 'absolute',
-        left: 18,
-        right: 18,
-        bottom: 16,
+        marginTop: 2,
     },
     avatar: {
         width: 47,
@@ -119,9 +287,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '800',
     },
+    content: {
+        paddingHorizontal: 18,
+    },
     searchBox: {
-        marginHorizontal: 18,
-        marginTop: 4,
         height: 55,
         borderWidth: 1,
         borderColor: colors.primaryAccent,
@@ -138,7 +307,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
     },
     mapBox: {
-        marginHorizontal: 18,
         marginTop: 35,
         height: 240,
         borderRadius: 14,
@@ -216,7 +384,6 @@ const styles = StyleSheet.create({
         fontWeight: '800',
     },
     destinationPreview: {
-        marginHorizontal: 18,
         marginTop: 35,
         borderWidth: 1,
         borderColor: colors.primaryAccent,
@@ -267,5 +434,171 @@ const styles = StyleSheet.create({
         color: colors.textSecondary,
         fontSize: 12,
         marginTop: 2,
+    },
+    fieldLabel: {
+        color: colors.textPrimary,
+        fontSize: 14,
+        fontWeight: '800',
+        marginBottom: 10,
+        marginTop: 18,
+    },
+    nameOptionsRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 8,
+        marginBottom: 10,
+    },
+    nameOption: {
+        height: 34,
+        borderWidth: 1,
+        borderColor: colors.borderSoft,
+        borderRadius: 999,
+        paddingHorizontal: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#081b2b',
+    },
+    nameOptionActive: {
+        borderColor: colors.primaryAccent,
+        backgroundColor: colors.inputActiveBackground,
+    },
+    nameOptionText: {
+        color: colors.textSecondary,
+        fontSize: 13,
+        fontWeight: '800',
+    },
+    nameOptionTextActive: {
+        color: colors.primaryAccent,
+    },
+    textField: {
+        minHeight: 54,
+        borderWidth: 1,
+        borderColor: colors.borderSoft,
+        borderRadius: 14,
+        backgroundColor: '#081b2b',
+        color: colors.textPrimary,
+        fontSize: 15,
+        paddingHorizontal: 14,
+    },
+    messageField: {
+        height: 92,
+        paddingTop: 14,
+        paddingBottom: 14,
+    },
+    radiusRow: {
+        flexDirection: 'row',
+        gap: 10,
+    },
+    radiusOption: {
+        flex: 1,
+        height: 42,
+        borderWidth: 1,
+        borderColor: colors.borderSoft,
+        borderRadius: 999,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#081b2b',
+    },
+    radiusOptionActive: {
+        borderColor: colors.primaryAccent,
+        backgroundColor: colors.primaryAccent,
+    },
+    radiusOptionText: {
+        color: colors.textSecondary,
+        fontSize: 13,
+        fontWeight: '800',
+    },
+    radiusOptionTextActive: {
+        color: colors.textPrimary,
+    },
+    selectField: {
+        height: 54,
+        borderWidth: 1,
+        borderColor: colors.borderSoft,
+        borderRadius: 14,
+        backgroundColor: '#081b2b',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        paddingHorizontal: 14,
+    },
+    selectFieldText: {
+        color: colors.textSecondary,
+        fontSize: 15,
+    },
+    soundOptionsBox: {
+        borderWidth: 1,
+        borderColor: colors.borderSoft,
+        borderRadius: 14,
+        backgroundColor: '#081b2b',
+        marginTop: 8,
+        overflow: 'hidden',
+    },
+    soundOption: {
+        minHeight: 46,
+        paddingHorizontal: 14,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottomWidth: 1,
+        borderBottomColor: colors.borderSoft,
+    },
+    soundOptionText: {
+        color: colors.textSecondary,
+        fontSize: 14,
+        fontWeight: '700',
+    },
+    soundOptionTextActive: {
+        color: colors.primaryAccent,
+    },
+    offlineCard: {
+        marginTop: 26,
+        borderRadius: 18,
+        backgroundColor: colors.inputActiveBackground,
+        padding: 18,
+        flexDirection: 'row',
+        gap: 14,
+    },
+    offlineDot: {
+        width: 14,
+        height: 14,
+        borderRadius: 7,
+        backgroundColor: colors.success,
+        marginTop: 3,
+    },
+    offlineTextBox: {
+        flex: 1,
+    },
+    offlineTitle: {
+        color: colors.textPrimary,
+        fontSize: 16,
+        fontWeight: '800',
+    },
+    offlineDescription: {
+        color: colors.textSecondary,
+        fontSize: 13,
+        lineHeight: 18,
+        marginTop: 6,
+    },
+    primaryButton: {
+        height: 56,
+        borderRadius: 14,
+        backgroundColor: colors.primaryAccent,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        gap: 8,
+        marginTop: 28,
+    },
+    primaryButtonText: {
+        color: colors.textPrimary,
+        fontSize: 16,
+        fontWeight: '800',
+    },
+    bottomNavWrapper: {
+        position: 'absolute',
+        left: 18,
+        right: 18,
+        bottom: 16,
     },
 })

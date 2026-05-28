@@ -53,7 +53,10 @@ export default function App() {
       )}
 
       {screen === 'profile' && (
-        <ProfileScreen onTabPress={handleTabPress} />
+        <ProfileScreen
+          onTabPress={handleTabPress}
+          onLogout={() => setScreen('login')}
+        />
       )}
     </>
   )

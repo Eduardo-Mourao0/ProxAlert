@@ -210,7 +210,7 @@ export function CreateAlarmScreen({ onTabPress }: CreateAlarmScreenProps) {
 
                         <View style={styles.destinationPreview}>
                             <View style={styles.previewIconBox}>
-                                <Ionicons name="location-outline" size={20} color={colors.textPrimary} />
+                                <Ionicons name="location-outline" size={18} color={colors.textPrimary} />
                             </View>
 
                             <View style={styles.previewMainInfo}>
@@ -384,21 +384,21 @@ const styles = StyleSheet.create({
         fontWeight: '800',
     },
     destinationPreview: {
-        marginTop: 35,
+        marginTop: 20,
         borderWidth: 1,
         borderColor: colors.primaryAccent,
-        borderRadius: 18,
+        borderRadius: 14,
         backgroundColor: colors.inputActiveBackground,
-        paddingHorizontal: 16,
-        paddingVertical: 20,
+        paddingHorizontal: 14,
+        paddingVertical: 14,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 14,
+        gap: 12,
     },
     previewIconBox: {
-        width: 52,
-        height: 52,
-        borderRadius: 15,
+        width: 42,
+        height: 42,
+        borderRadius: 12,
         backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
@@ -408,32 +408,32 @@ const styles = StyleSheet.create({
     },
     previewLabel: {
         color: colors.textMuted,
-        fontSize: 12,
+        fontSize: 10,
         fontWeight: '800',
     },
     previewTime: {
         color: colors.textPrimary,
-        fontSize: 28,
+        fontSize: 22,
         fontWeight: '800',
-        marginTop: 2,
+        marginTop: 1,
     },
     previewDescription: {
         color: colors.textSecondary,
-        fontSize: 12,
-        marginTop: 2,
+        fontSize: 11,
+        marginTop: 1,
     },
     previewDistanceBox: {
         alignItems: 'center',
     },
     previewDistance: {
         color: colors.primaryAccent,
-        fontSize: 20,
+        fontSize: 16,
         fontWeight: '800',
     },
     previewDistanceLabel: {
         color: colors.textSecondary,
-        fontSize: 12,
-        marginTop: 2,
+        fontSize: 11,
+        marginTop: 1,
     },
     fieldLabel: {
         color: colors.textPrimary,
